@@ -153,17 +153,14 @@ def word_move():
 
 
 if __name__ == '__main__':
-    # messagebox.showinfo('Typing Test', '''Welcome to the Typing Test game!
-    #                 Enter the words as quickly as you can, and
-    #                 hit return. Go for a high score!''')
+    messagebox.showinfo('Typing Test', 'Welcome to the Typing Test game!\nEnter the words as quickly as you can, and\nhit return. Go for a high score!')
     root = tk.Tk()
-    # root.wm_attributes('-topmost', 1)
-    # root.focus_force()
+    root.wm_attributes('-topmost', 1)
+    root.after(1, lambda: root.focus_force())
     widgets = create_test_base()
     widgets['testentry'].bind('<Return>', check_entry)
     root.bind('<BackSpace>', clear_color)
-    widgets['testentry'].focus_set()
-
+    root.after(1, lambda: widgets['testentry'].focus_set())
     get_new_word()
     word_move()
 
