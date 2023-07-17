@@ -1,7 +1,7 @@
 '''Simple Tk-based typing test with a predefined dictionary.  Words appear and move, 
 and user must type them before they hit the edge to accumulate a score.
 '''
-import random, logging
+import random, logging, sys
 import tkinter as tk
 from tkinter import messagebox
 
@@ -10,7 +10,7 @@ logging.basicConfig(filename='typing_test.log', level=logging.DEBUG,
 
 CANVAS_WIDTH = 600
 CANVAS_HEIGHT = 250
-WORD_MARGIN = 20
+WORD_MARGIN = 50
 MOVE_STEPY = 10
 MOVE_STEPX = 25
 
@@ -69,9 +69,8 @@ def create_test_base():
     widgets['testcanv'] = testcanv
     testcanv.grid()
 
-    test_entry_string = tk.StringVar()
-    widgets['test_entry_string'] = test_entry_string
-    testentry = tk.Entry(main, textvariable=test_entry_string, width=40,
+    widgets['test_entry_string'] = tk.StringVar()
+    testentry = tk.Entry(main, textvariable=widgets['test_entry_string'], width=40,
                          highlightthickness=3)
     widgets['testentry'] = testentry
     testentry.grid()
@@ -83,9 +82,8 @@ def create_test_base():
     bottom.grid_columnconfigure(0, weight=1)
     bottom.grid()
     
-    bottom_text_var = tk.StringVar(value='Score: 0\nSpeed up at 100')
-    widgets['bottom_text_var'] = bottom_text_var
-    bottom_text = tk.Label(bottom, textvariable=bottom_text_var, 
+    widgets['bottom_text_var'] = tk.StringVar(value='Score: 0\nSpeed up at 100')
+    bottom_text = tk.Label(bottom, textvariable=widgets['bottom_text_var'], 
                            font=('arial', 13, 'bold'), background='dark gray')
     widgets['bottom_text'] = bottom_text
     bottom_text.grid(sticky='e')
@@ -155,7 +153,7 @@ def word_move():
             if not (0 < widgets['testcanv'].coords(word)[0] < 600) or \
             not (0 < widgets['testcanv'].coords(word)[1] < 250):
                 messagebox.showinfo('Defeat!', f'Final Score {player_score}')
-                root.destroy()
+                sys.exit()
 
     next_word += 1
     if next_word == interval:
