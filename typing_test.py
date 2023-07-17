@@ -10,9 +10,10 @@ logging.basicConfig(filename='typing_test.log', level=logging.DEBUG,
 
 CANVAS_WIDTH = 600
 CANVAS_HEIGHT = 250
-WORD_MARGIN = 50
+WORD_MARGIN = 20
 MOVE_STEPY = 10
 MOVE_STEPX = 25
+X_ADJUST = 20
 
 #up-vertical, left-horizontal, down-right-diagonal, etc
 PATHS = ('uvert', 'dvert', 'lhorz', 'rhorz',
@@ -93,6 +94,8 @@ def create_test_base():
     return widgets
 
 def check_entry(event):
+    '''Check text from entry box against active words, remove them from canvas
+     if matched. Handle color changes and score adjustment.'''
     global player_score, score_barrier, gamespeed
     testentry = widgets['testentry']
     testcanv = widgets['testcanv']
@@ -113,6 +116,7 @@ def check_entry(event):
         testentry['highlightcolor'] = 'red'
     
 def clear_color(event):
+    '''Remove red border of entry box when player is correcting mistake'''
     widgets['testentry']['highlightcolor'] = 'SystemWindowFrame'
 
 
@@ -122,7 +126,8 @@ def get_new_word():
     
     path = random.choice(PATHS)
     if PATH_INITIAL_POS[path][0] == 'x':
-        initial_x = random.randint(WORD_MARGIN, CANVAS_WIDTH-WORD_MARGIN)
+        initial_x = random.randint(WORD_MARGIN+X_ADJUST, 
+                                   CANVAS_WIDTH-WORD_MARGIN-X_ADJUST)
     else:
         initial_x = PATH_INITIAL_POS[path][0]
     if PATH_INITIAL_POS[path][1] == 'y':
